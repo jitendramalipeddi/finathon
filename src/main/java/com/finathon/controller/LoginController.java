@@ -1,6 +1,7 @@
 package com.finathon.controller;
 
 import com.finathon.exceptions.IncorrectPasswordException;
+import com.finathon.exceptions.UserAlreadyPresentException;
 import com.finathon.model.LoginUser;
 import com.finathon.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,10 @@ public class LoginController {
     }
     @PostMapping("/save")
     public void saveUser(@RequestBody LoginUser user){
-        loginService.saveUser(user);
+        try {
+            loginService.saveUser(user);
+        } catch (UserAlreadyPresentException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
